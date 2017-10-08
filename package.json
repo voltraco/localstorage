@@ -1,0 +1,19 @@
+{
+  "name": "localstorage",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard ."
+  },
+  "author": "voltraco",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/voltraco/localstorage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/voltraco/localstorage/issues"
+  },
+  "homepage": "https://github.com/voltraco/localstorage#readme",
+  "description": "local storage helper"
+}
