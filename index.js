@@ -5,15 +5,16 @@ class LocalStorage {
     this._sep = '\x00'
   }
 
-  _notFound () {
-    const err = new Error('Not Found')
+  _notFound (k) {
+    const err = new Error(`Not Found [${k}]`)
     err.notFound = true
+    err.key = k
     return err
   }
 
   get (key) {
     const k = [this._namespace, key].join(this._sep)
-    if (!this._store[k]) return [this._notFound()]
+    if (!this._store[k]) return [this._notFound(k)]
 
     try {
       return [null, JSON.parse(this._store[k])]
@@ -35,14 +36,14 @@ class LocalStorage {
 
   has (key) {
     const k = [this._namespace, key].join(this._sep)
-    if (!this._store[k]) return [this._notFound()]
+    if (!this._store[k]) return [this._notFound(k)]
     return [null, true]
   }
 
   delete (key) {
     if (key) {
       const k = [this._namespace, key].join(this._sep)
-      if (!this._store[k]) return [this._notFound()]
+      if (!this._store[k]) return [this._notFound(k)]
 
       delete this._store[k]
       return [null]
