@@ -5,6 +5,10 @@ class LocalStorage {
     this._sep = '\x00'
   }
 
+  static clear () {
+    window.localStorage.clear()
+  }
+
   _notFound (k) {
     const err = new Error(`Not Found [${k}]`)
     err.notFound = true
@@ -24,6 +28,10 @@ class LocalStorage {
   }
 
   put (key, value) {
+    if (typeof value === 'undefined') {
+      return [new Error(`Invalid parameters to put, ('${key}', undefined)`)]
+    }
+
     try {
       const k = [this._namespace, key].join(this._sep)
       const v = JSON.stringify(value)
@@ -40,7 +48,7 @@ class LocalStorage {
     return [null, true]
   }
 
-  delete (key) {
+  del (key) {
     if (key) {
       const k = [this._namespace, key].join(this._sep)
       if (!this._store[k]) return [this._notFound(k)]
@@ -50,18 +58,36 @@ class LocalStorage {
     }
 
     Object.keys(window.localStorage).forEach(k => {
-      const prefix = k.split(this._sep)[0]
-      if (prefix === this._namespace) {
+      const ns = k.split(this._sep)[0]
+      if (ns === this._namespace) {
         delete this._store[k]
       }
     })
   }
 
-  search (str) {
-    return Object.keys(this._store).map(k => {
-      const prefix = k.split(this._sep)[0]
-      if (prefix && k.includes(str)) return [k, this._store[k]]
+  search (pattern) {
+    if (!pattern) {
+      throw new Error('A pattern is required')
+    }
+
+    const matchKeys = key => {
+      const [, _key] = key.split(this._sep)
+
+      if (!_key) return
+      if (!pattern.test(_key)) return
+
+      return key
+    }
+
+    const makePairs = key => ({
+      key: key.split(this._sep)[1],
+      value: this._store[key]
     })
+
+    return [null, Object
+      .keys(this._store)
+      .filter(matchKeys)
+      .map(makePairs)]
   }
 }
 
