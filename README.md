@@ -12,7 +12,7 @@ npm install voltraco/localstorage
 
 ```js
 const LocalStorage = require('localstorage')
-const user = LocalStorage('user') // create the `user` namespace
+const user = new LocalStorage('user') // create the `user` namespace
 
 user.put('quxx', { foo: 100 })
 
