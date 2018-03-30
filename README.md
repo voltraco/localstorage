@@ -1,29 +1,37 @@
 # SYNOPSIS
-A localStorage helper. Serialize and deserialize JSON, add namspaces, check for
-keys not found.
+Serialize and deserialize and namespace JSON in localstorage.
 
 # INSTALL
 
 ```bash
-npm install voltraco/localstorage
+npm install localstorage
 ```
 
 # USAGE
 
 ```js
 const LocalStorage = require('localstorage')
-const user = new LocalStorage('user') // create the `user` namespace
+```
 
-user.put('quxx', { foo: 100 })
+```js
+const foo = new LocalStorage('foo') // create a `foo` namespace
+foo.put('quxx', { foo: 100 })
+```
 
-user.get('quxx') // [null, { foo: 100 }]
-user.get('foo') // [ErrorNotFOund]
+```js
+const [err, value] = foo.get('quxx')
+value.foo === 100 // true
+```
 
-user.has('quxx') // [null, true]
-user.has('foo') // [ErrorNotFound]
+```js
+foo.get('quxx') // [null, { foo: 100 }]
+foo.get('foo') // [ErrorNotFOund]
 
-user.delete('quxx') // [null, true]
-user.delete('foo') // [ErrorNotFound]
+foo.has('quxx') // [null, true]
+foo.has('foo') // [ErrorNotFound]
 
-user.delete() // delete everything in the `user` namespace
+foo.delete('quxx') // [null, true]
+foo.delete('foo') // [ErrorNotFound]
+
+foo.delete() // delete everything in the `foo` namespace
 ```
