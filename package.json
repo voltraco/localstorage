@@ -15,5 +15,5 @@
     "url": "https://github.com/voltraco/localstorage/issues"
   },
   "homepage": "https://github.com/voltraco/localstorage#readme",
-  "description": "local storage helper"
+  "description": "serialize, deserialize and namespace JSON"
 }
