@@ -64,6 +64,15 @@ class LocalStorage {
       }
     })
   }
+  
+  all () {
+    return Object.keys(window.localStorage)
+      .filter(key => key.split(this._sep)[0] === this._namespace)
+      .reduce({}, (map, key) => {
+        const namespacedKey = key.split(this._sep, 2)[1]
+        return Object.assign(map, { [namespacedKey]: JSON.parse(this._store[key]) })
+      })
+  }
 
   search (pattern) {
     if (!pattern) {
