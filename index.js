@@ -1,8 +1,8 @@
 class LocalStorage {
-  constructor (namespace) {
+  constructor (namespace, sep) {
     this._namespace = namespace
     this._store = window.localStorage
-    this._sep = '\x00'
+    this._sep = sep ? sep : '\x00'
   }
 
   static clear () {
